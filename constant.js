@@ -3,6 +3,7 @@ const GAME = {
     WIDTH: 500,
     HEIGHT: 1000, 
     LOOP_NUMB: 16,
+    SPEED: 0,
 };
 
 // gravity interval time

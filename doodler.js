@@ -4,7 +4,6 @@ class Doodler {
     y;
     width;
     height;
-    speed;
     falling;
     jumping;
     turningRight;
@@ -15,9 +14,8 @@ class Doodler {
         this.y = y;
         this.width = 50;
         this.height = 100;
-        this.left = this.x;
-        this.right = this.x + this.width;
-        this.setGravity();
+        // this.left = this.x;
+        // this.right = this.x + this.width;
     }
 
     isFalling() {
@@ -26,9 +24,9 @@ class Doodler {
     }
 
     fall() {
-        this.speed = 0;
+        GAME.SPEED = 0;
         this.falling = setInterval(() => {
-            this.y += this.speed;
+            this.y += GAME.SPEED;
         }, GAME.LOOP_NUMB);
     }
 
@@ -45,23 +43,16 @@ class Doodler {
     jump() {
         this.stopFall();
         if (this.jumping) this.stopJump();
-        this.speed = MAX_SPEED;
+        GAME.SPEED = MAX_SPEED;
         this.jumping = setInterval(() => {
-            if (this.speed > 0) {
-                this.y -= this.speed;
+            if (GAME.SPEED > 0 && !this.toMiddleOfScreen()) {
+                this.y -= GAME.SPEED;
             } 
-            if (this.speed == 0) {
+            if (GAME.SPEED == 0) {
                 this.stopJump();
                 this.fall();
             }
         }, GAME.LOOP_NUMB);
-    }
-
-    setGravity() {
-        setInterval(() => {
-            if (this.isJumping() && this.speed > 0) this.speed--;
-            if (this.isFalling() && this.speed < MAX_SPEED) this.speed++;
-        }, GRAVITY_TIME);
     }
 
     stopJump() {
@@ -72,7 +63,10 @@ class Doodler {
     turnLeft() {
         if (this.turningRight) this.stopTurnRight();
         if (!this.turningLeft) {
-            this.turningLeft = setInterval(() => { this.x -= TURN_SPEED }, GAME.LOOP_NUMB);
+            this.turningLeft = setInterval(() => { 
+                this.x -= TURN_SPEED;
+                if (this.goOutLeft()) this.goInsideRight(); 
+            }, GAME.LOOP_NUMB);
         }
     }
 
@@ -84,13 +78,36 @@ class Doodler {
     turnRight() {
         if (this.turningLeft) this.stopTurnLeft();
         if (!this.turningRight) {
-            this.turningRight = setInterval(() => { this.x += TURN_SPEED }, GAME.LOOP_NUMB);
+            this.turningRight = setInterval(() => { 
+                this.x += TURN_SPEED;
+                if (this.goOutRight()) this.goInsideLeft(); 
+            }, GAME.LOOP_NUMB);
         }
     }
 
     stopTurnRight() {
         clearInterval(this.turningRight);
         this.turningRight = null;
+    }
+
+    goOutRight() {
+        var left = this.x;
+        if (left >= GAME.WIDTH) return true;
+        return false;
+    }
+
+    goInsideLeft() {
+        this.x = - this.width;
+    }
+
+    goOutLeft() {
+        var right = this.x + this.width;
+        if (right <= 0) return true;
+        return false;
+    }
+
+    goInsideRight() {
+        this.x = GAME.WIDTH;
     }
 
     hit(platform) {
@@ -101,6 +118,12 @@ class Doodler {
         if (bottom >= p.top && bottom < p.bottom && right > p.left && left < p.right) {
             return true;
         }
+        return false;
+    }
+    
+    toMiddleOfScreen() {
+        var bottom = this.y + this.height;
+        if (bottom <= GAME.HEIGHT / 2) return true;
         return false;
     }
 
