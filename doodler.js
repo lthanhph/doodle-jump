@@ -1,5 +1,5 @@
 class Doodler {
-    
+
     x;
     y;
     width;
@@ -8,14 +8,16 @@ class Doodler {
     jumping;
     turningRight;
     turningLeft;
+    direction;
+    nose;
 
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 50;
+        this.width = 100;
         this.height = 100;
-        // this.left = this.x;
-        // this.right = this.x + this.width;
+        this.nose = 40;
+        this.direction = 'right';
     }
 
     isFalling() {
@@ -37,7 +39,7 @@ class Doodler {
 
     isJumping() {
         if (this.jumping) return true;
-        return false; 
+        return false;
     }
 
     jump() {
@@ -47,7 +49,7 @@ class Doodler {
         this.jumping = setInterval(() => {
             if (GAME.SPEED > 0 && !this.toMiddleOfScreen()) {
                 this.y -= GAME.SPEED;
-            } 
+            }
             if (GAME.SPEED == 0) {
                 this.stopJump();
                 this.fall();
@@ -63,9 +65,10 @@ class Doodler {
     turnLeft() {
         if (this.turningRight) this.stopTurnRight();
         if (!this.turningLeft) {
-            this.turningLeft = setInterval(() => { 
+            this.direction = 'left';
+            this.turningLeft = setInterval(() => {
                 this.x -= TURN_SPEED;
-                if (this.goOutLeft()) this.goInsideRight(); 
+                if (this.goOutLeft()) this.goInsideRight();
             }, GAME.LOOP_NUMB);
         }
     }
@@ -78,9 +81,10 @@ class Doodler {
     turnRight() {
         if (this.turningLeft) this.stopTurnLeft();
         if (!this.turningRight) {
-            this.turningRight = setInterval(() => { 
+            this.direction = 'right';
+            this.turningRight = setInterval(() => {
                 this.x += TURN_SPEED;
-                if (this.goOutRight()) this.goInsideLeft(); 
+                if (this.goOutRight()) this.goInsideLeft();
             }, GAME.LOOP_NUMB);
         }
     }
@@ -112,15 +116,21 @@ class Doodler {
 
     hit(platform) {
         var bottom = this.y + this.height;
-        var right = this.x + this.width;
-        var left = this.x;
+        if (this.direction == 'left') {
+            var right = this.x + this.width;
+            var left = this.x + this.nose;
+        }
+        if (this.direction == 'right') {
+            var right = this.x + this.width - this.nose;
+            var left = this.x;
+        }
         var p = platform; // shorthand
         if (bottom >= p.top && bottom < p.bottom && right > p.left && left < p.right) {
             return true;
         }
         return false;
     }
-    
+
     toMiddleOfScreen() {
         var bottom = this.y + this.height;
         if (bottom <= GAME.HEIGHT / 2) return true;
@@ -130,8 +140,9 @@ class Doodler {
 
     draw() {
         if (GAME.CONTEXT) {
-            GAME.CONTEXT.fillStyle = 'green';
-            GAME.CONTEXT.fillRect(this.x, this.y, this.width, this.height);
+            if (this.direction == 'right') var doodler = document.getElementById('doodler-right');
+            if (this.direction == 'left') var doodler = document.getElementById('doodler-left');
+            GAME.CONTEXT.drawImage(doodler, this.x, this.y, this.width, this.height);
         }
     }
 }

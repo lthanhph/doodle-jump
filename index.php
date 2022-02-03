@@ -9,10 +9,13 @@
 </head>
 <body>
     <canvas id="game"></canvas>
+    <img id="doodler-left" src="img/doodler-left.png" alt="" hidden>
+    <img id="doodler-right" src="img/doodler-right.png" alt="" hidden>
+    <img id="platform" src="img/platform.png" alt="" hidden>
+    <img id="background" src="img/background.png" alt="" hidden>
 </body>
 <script src="constant.js"></script>
 <script src="doodler.js"></script>
-<script src="platform.js"></script>
-<script src="stage.js"></script>
+<script src="platform.js"></script> 
 <script src="game.js"></script>
 </html>

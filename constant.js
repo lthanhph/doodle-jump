@@ -6,6 +6,11 @@ const GAME = {
     SPEED: 0,
 };
 
+const PLATFORM = {
+    WIDTH: 120,
+    HEIGHT: 35,
+}
+
 // gravity interval time
 const GRAVITY_TIME = 50;
 
@@ -14,3 +19,6 @@ const MAX_SPEED = 13;
 
 // doodler turn speed
 const TURN_SPEED = 5;
+
+const FONT = 'Comic Sans MS';
+const FONT_COLOR = '#b45f06';

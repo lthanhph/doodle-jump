@@ -12,8 +12,8 @@ class Platform {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 80;
-        this.height = 20;
+        this.width = PLATFORM.WIDTH;
+        this.height = PLATFORM.HEIGHT;
         this.updatePosition();
     }
 
@@ -39,10 +39,17 @@ class Platform {
         this.updatePosition();
     }
 
+    moveUp() {
+        this.y -= GAME.SPEED;
+        this.updatePosition();
+    }
+
     draw() {
         if (GAME.CONTEXT) {
-            GAME.CONTEXT.fillStyle = 'green';
-            GAME.CONTEXT.fillRect(this.x, this.y, this.width, this.height);
+            var platform = document.getElementById('platform');
+            GAME.CONTEXT.drawImage(platform, this.x, this.y, this.width, this.height);
+            // GAME.CONTEXT.fillStyle = 'green';
+            // GAME.CONTEXT.fillRect(this.x, this.y, this.width, this.height);
         }
     }
 }
