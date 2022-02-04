@@ -39,6 +39,7 @@ class Game {
             this.hitPlatformCheck();
             this.moveUp();
             this.createNextPlatforms(10);
+            this.clearOldPlatforms();
             this.gameOverCheck();
          }, GAME.LOOP_NUMB);
     }
@@ -141,6 +142,13 @@ class Game {
         }
     }
 
+    clearOldPlatforms() {
+        // clear platforms
+        this.platforms.forEach((platform, index) => { 
+            if (platform.y > GAME.HEIGHT) this.platforms.splice(index, 1);
+        });
+    }
+
     gameOverCheck() {
         if (this.doodler.y > GAME.HEIGHT) {
             this.gameOver();
@@ -148,10 +156,6 @@ class Game {
     }
 
     gameOver() {
-        // clear platforms
-        this.platforms.forEach((platform, index) => { 
-            if (platform.y > GAME.HEIGHT) this.platforms.splice(index, 1);
-        });
 
         // moving down
         if (!this.movingDown) {
