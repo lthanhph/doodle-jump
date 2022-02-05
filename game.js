@@ -57,10 +57,10 @@ class Game {
         });
 
         // screen orientation
-        screen.orientation.addEventListener('change', (event) => {
-            document.getElementById('angle').innerHTML = screen.orientation.angle;
-            // console.log(screen.orientation.angle);
-        });
+        // screen.orientation.addEventListener('change', (event) => {
+        //     document.getElementById('angle').innerHTML = screen.orientation.angle;
+        //     // console.log(screen.orientation.angle);
+        // });
     }
 
     setGravity() {

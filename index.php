@@ -9,7 +9,7 @@
 </head>
 <body>
     <canvas id="game"></canvas>
-    <span id="angle"></span>
+    <!-- <span id="angle"></span> -->
     <img id="doodler-left" src="img/doodler-left.png" alt="" hidden>
     <img id="doodler-right" src="img/doodler-right.png" alt="" hidden>
     <img id="platform" src="img/platform.png" alt="" hidden>
