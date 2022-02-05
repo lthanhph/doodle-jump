@@ -45,6 +45,7 @@ class Game {
     }
 
     listenEvent() {
+        // key board
         document.body.addEventListener('keydown', (event) => {
             event.preventDefault();
             switch (event.code) {
@@ -53,6 +54,12 @@ class Game {
                 case 'ArrowLeft': this.doodler.turnLeft();
                     break;
             }
+        });
+
+        // screen orientation
+        screen.orientation.addEventListener('change', (event) => {
+            document.getElementById('angle').innerHTML = screen.orientation.angle;
+            // console.log(screen.orientation.angle);
         });
     }
 
